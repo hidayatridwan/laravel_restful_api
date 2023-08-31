@@ -5,6 +5,7 @@ namespace Tests\Feature;
 use App\Models\Contact;
 use App\Models\User;
 use Database\Seeders\ContactSeeder;
+use Database\Seeders\SearchSeeder;
 use Database\Seeders\UserSeeder;
 use Tests\TestCase;
 
@@ -206,5 +207,28 @@ class ContactTest extends TestCase
                     'message' => ['Not found.']
                 ]
             ]);
+    }
+
+    public function testSearchByName()
+    {
+        $this->seed([UserSeeder::class, SearchSeeder::class]);
+
+        $this->get('/api/contacts');
+    }
+
+    public function testSearchByEmail()
+    {
+    }
+
+    public function testSearchByPhone()
+    {
+    }
+
+    public function testSearchWithPage()
+    {
+    }
+
+    public function testSearchByName()
+    {
     }
 }
