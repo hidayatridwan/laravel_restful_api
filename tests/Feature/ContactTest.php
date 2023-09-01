@@ -7,6 +7,7 @@ use App\Models\User;
 use Database\Seeders\ContactSeeder;
 use Database\Seeders\SearchSeeder;
 use Database\Seeders\UserSeeder;
+use Illuminate\Support\Facades\Log;
 use Tests\TestCase;
 
 class ContactTest extends TestCase
@@ -213,7 +214,16 @@ class ContactTest extends TestCase
     {
         $this->seed([UserSeeder::class, SearchSeeder::class]);
 
-        $this->get('/api/contacts');
+        $response = $this->get('/api/contacts?name=ridwan', [
+            'Authorization' => '12345'
+        ])
+            ->assertStatus(200)
+            ->json();
+
+        Log::info(json_encode($response, JSON_PRETTY_PRINT));
+
+        self::assertEquals(10, count($response['data']));
+        self::assertEquals(20, $response['meta']['total']);
     }
 
     public function testSearchByEmail()
@@ -225,10 +235,6 @@ class ContactTest extends TestCase
     }
 
     public function testSearchWithPage()
-    {
-    }
-
-    public function testSearchByName()
     {
     }
 }
